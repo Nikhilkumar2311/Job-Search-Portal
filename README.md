@@ -47,15 +47,17 @@
 
 7. **Evaluation Criteria**
 
-   - Quality of backend API and database design: 25%.
-   - Frontend implementation and user experience: 25%.
-   - Overall functionality and performance: 25%.
-   - Report and presentation quality: 25%.
+   - Quality of backend API and database design: XX%.
+   - Frontend implementation and user experience: XX%.
+   - Overall functionality and performance: XX%.
+   - Report and presentation quality: XX%.
 
 8. **Submission Guidelines**
 
-   - **Format**: slides for presentations
+   - **Format**:
    - **Deadline**:
-   - **Mode**: Submission via email
+   - **Mode**:
 
 9. **References**
+
+   - Technology Documentation
