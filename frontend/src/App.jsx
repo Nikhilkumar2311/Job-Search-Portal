@@ -1,7 +1,8 @@
-import "./App.css";
+import React from "react";
+import LoginPage from "./pages/login";
 
 function App() {
-  return <h1 class="text-3xl font-bold underline">Hello Programmers!!</h1>;
+  return <LoginPage />;
 }
 
 export default App;
