@@ -1,5 +1,7 @@
-import { useState } from "react";
-import Logo from "../Shared/Logo";
+import { useState, lazy, Suspense } from "react";
+
+// Lazy load components
+const Logo = lazy(() => import("../Shared/Logo"));
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -26,20 +28,28 @@ const Login = () => {
             src="./auth/image.svg"
             alt="login-illustration"
             className="w-full h-full object-cover rounded-2xl"
+            loading="lazy" // Lazy load image
           />
         </div>
 
         {/* Right Side - Form */}
         <div className="w-full md:w-2/3">
-          {/* Login Title and Logo */}
-          <div className="flex items-center justify-between w-full mb-4">
-            <h2 className="text-2xl text-[#000000] font-bold">Login</h2>
-            <div className="ml-auto">
-              <Logo className="h-10 w-auto" />
-            </div>
+          {/* Login Title and Lazy Loaded Logo */}
+          <div className="flex items-center w-full mb-4">
+            <h2 className="text-2xl text-[#000000] font-bold flex-grow">
+              Login
+            </h2>
+            <Suspense
+              fallback={
+                <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
+              }
+            >
+              <Logo className="h-10 w-auto ml-4" />
+            </Suspense>
           </div>
 
           <form className="mt-4" onSubmit={handleSubmit}>
+            {/* Email Field */}
             <div className="mb-3">
               <label className="block text-gray-700">Email</label>
               <input
@@ -52,6 +62,8 @@ const Login = () => {
                 required
               />
             </div>
+
+            {/* Password Field */}
             <div className="mb-3">
               <label className="block text-gray-700">Password</label>
               <input
@@ -67,26 +79,18 @@ const Login = () => {
 
             {/* Radio Buttons */}
             <div className="mb-3 flex gap-4">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="role"
-                  value="student"
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                Student
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="role"
-                  value="recruiter"
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                Recruiter
-              </label>
+              {["student", "recruiter"].map((role) => (
+                <label key={role} className="flex items-center">
+                  <input
+                    type="radio"
+                    name="role"
+                    value={role}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  {role.charAt(0).toUpperCase() + role.slice(1)}
+                </label>
+              ))}
             </div>
 
             <button
