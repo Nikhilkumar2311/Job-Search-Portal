@@ -1,4 +1,10 @@
-import { useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { USER_API_END_POINT } from "../../utils/constant";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, setUser } from "../../redux/authSlice";
+import { Loader2 } from "lucide-react";
 
 // Lazy load components
 const Logo = lazy(() => import("../Shared/Logo"));
@@ -10,13 +16,40 @@ const Login = () => {
     role: "",
   });
 
+  const { loading, user } = useSelector((store) => store.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      dispatch(setLoading(true));
+      const res = await axios.post(`${USER_API_END_POINT}/login`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+
+      if (res.data.success) {
+        dispatch(setUser(res.data.user));
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error.response?.data?.message || "Login failed");
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   return (
@@ -28,7 +61,7 @@ const Login = () => {
             src="./auth/image.svg"
             alt="login-illustration"
             className="w-full h-full object-cover rounded-2xl"
-            loading="lazy" // Lazy load image
+            loading="lazy"
           />
         </div>
 
@@ -85,6 +118,7 @@ const Login = () => {
                     type="radio"
                     name="role"
                     value={role}
+                    checked={formData.role === role}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -96,8 +130,15 @@ const Login = () => {
             <button
               type="submit"
               className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700"
+              disabled={loading}
             >
-              Login
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
+                </div>
+              ) : (
+                "Login"
+              )}
             </button>
           </form>
 

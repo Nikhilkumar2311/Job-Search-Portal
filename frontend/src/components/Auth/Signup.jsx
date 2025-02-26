@@ -1,4 +1,9 @@
 import { useState, lazy, Suspense } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../redux/authSlice";
+import { USER_API_END_POINT } from "../../utils/constant";
 
 // Lazy load components
 const Logo = lazy(() => import("../Shared/Logo"));
@@ -10,20 +15,54 @@ const SignUp = () => {
     phone: "",
     password: "",
     role: "",
-    profile: null,
+    file: null,
   });
+
+  const { loading } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, profile: e.target.files[0] });
+    setFormData({ ...formData, file: e.target.files[0] });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("fullname", formData.fullName);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("phoneNumber", formData.phone);
+    formDataToSend.append("password", formData.password);
+    formDataToSend.append("role", formData.role);
+
+    if (formData.file) {
+      formDataToSend.append("file", formData.file); // ✅ Ensure file key matches backend
+    }
+
+    try {
+      dispatch(setLoading(true));
+      const res = await axios.post(
+        `${USER_API_END_POINT}/register`,
+        formDataToSend,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        }
+      );
+
+      if (res.data.success) {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error(error.response?.data?.message || "Signup failed!");
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   // Input fields configuration
@@ -63,7 +102,7 @@ const SignUp = () => {
             src="./auth/left_img.png"
             alt="signup-illustration"
             className="w-full h-full object-cover rounded-2xl"
-            loading="lazy" // Lazy load image
+            loading="lazy"
           />
         </div>
 
@@ -83,7 +122,11 @@ const SignUp = () => {
             </Suspense>
           </div>
 
-          <form className="mt-4" onSubmit={handleSubmit}>
+          <form
+            className="mt-4"
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+          >
             {/* Dynamically Rendered Input Fields */}
             {inputFields.map((field, index) => (
               <div key={index} className="mb-3">
@@ -100,7 +143,7 @@ const SignUp = () => {
               </div>
             ))}
 
-            {/* Radio Buttons + Small Profile PDF Upload */}
+            {/* Role Selection & Profile Upload */}
             <div className="mb-3 flex items-center gap-6">
               {/* Radio Buttons */}
               <div className="flex gap-4">
@@ -110,6 +153,7 @@ const SignUp = () => {
                       type="radio"
                       name="role"
                       value={role}
+                      checked={formData.role === role}
                       onChange={handleChange}
                       className="mr-2"
                     />
@@ -118,7 +162,7 @@ const SignUp = () => {
                 ))}
               </div>
 
-              {/* Smaller Profile PDF Upload */}
+              {/* Profile Upload */}
               <div className="flex items-center gap-1">
                 <label className="text-black font-medium text-sm">
                   Profile
@@ -136,7 +180,7 @@ const SignUp = () => {
               type="submit"
               className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700"
             >
-              Sign Up
+              {loading ? "Please wait..." : "Sign Up"}
             </button>
           </form>
 

@@ -9,43 +9,48 @@ export const register = async (req, res) => {
         const { fullname, email, phoneNumber, password, role } = req.body;
 
         if (!fullname || !email || !phoneNumber || !password || !role) {
-            return res.status(400).json({
-                message: "Something is missing",
-                success: false
-            });
-        };
-        const file = req.file;
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+            return res.status(400).json({ message: "Something is missing", success: false });
+        }
 
         const user = await User.findOne({ email });
         if (user) {
-            return res.status(400).json({
-                message: 'User already exist with this email.',
-                success: false,
-            })
+            return res.status(400).json({ message: "User already exists with this email.", success: false });
         }
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        let profilePhoto = null;
+
+        // ✅ Upload file only if provided
+        if (req.file) {
+            try {
+                const fileUri = getDataUri(req.file);
+                const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+                profilePhoto = cloudResponse.secure_url;
+            } catch (cloudinaryError) {
+                console.error("Cloudinary Upload Error:", cloudinaryError);
+                return res.status(500).json({ message: "File upload failed", success: false });
+            }
+        }
+
+        // Save user in DB
         await User.create({
             fullname,
             email,
             phoneNumber,
             password: hashedPassword,
             role,
-            profile: {
-                profilePhoto: cloudResponse.secure_url,
-            }
+            profile: { profilePhoto },
         });
 
-        return res.status(201).json({
-            message: "Account created successfully.",
-            success: true
-        });
+        return res.status(201).json({ message: "Account created successfully.", success: true });
+
     } catch (error) {
-        console.log(error);
+        console.error("Server Error:", error);
+        return res.status(500).json({ message: "Internal server error", success: false });
     }
-}
+};
+
 export const login = async (req, res) => {
     try {
         const { email, password, role } = req.body;
@@ -101,6 +106,7 @@ export const login = async (req, res) => {
         console.log(error);
     }
 }
+
 export const logout = async (req, res) => {
     try {
         return res.status(200).cookie("token", "", { maxAge: 0 }).json({
