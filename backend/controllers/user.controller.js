@@ -21,7 +21,7 @@ export const register = async (req, res) => {
 
         let profilePhoto = null;
 
-        // ✅ Upload file only if provided
+        // Upload file only if provided
         if (req.file) {
             try {
                 const fileUri = getDataUri(req.file);

@@ -1,82 +1,171 @@
-import { FaSearch } from "react-icons/fa";
-import { NavLink, Link, useNavigate } from "react-router-dom";
-import { useState, useCallback } from "react";
-import Logo from "./Logo"; // Importing your Logo component
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
+import Logo from "./Logo";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { USER_API_END_POINT } from "../../utils/constant";
+import { setUser } from "../../redux/authSlice";
+import { useState, useRef, useEffect } from "react";
+
+// Avatar Component
+const Avatar = ({ src, alt, onClick }) => (
+  <div className="relative w-10 h-10 cursor-pointer" onClick={onClick}>
+    <img
+      src={src || "/profile.svg"}
+      alt={alt || "User Avatar"}
+      className="w-full h-full rounded-full border border-gray-300"
+    />
+  </div>
+);
 
 const Header = () => {
-  const [query, setQuery] = useState("");
+  const { user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation(); // Get the current route
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
-  // Handle search action (optimized with useCallback)
-  const handleSearch = useCallback(() => {
-    if (query.trim() !== "") {
-      navigate(`/search?query=${query}`);
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
     }
-  }, [query, navigate]);
 
-  // Trigger search when Enter key is pressed
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSearch();
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownOpen]);
+
+  // Logout Handler
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`${USER_API_END_POINT}/logout`, {
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        dispatch(setUser(null));
+        navigate("/");
+        alert(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error.response?.data?.message || "Logout failed");
     }
   };
 
-  // Navigation links data
-  const navLinks = [
-    { path: "/", label: "Home" },
-    { path: "/jobs", label: "Jobs" },
-  ];
-
-  // Reusable Button Component
-  const AuthButton = ({ to, text }) => (
-    <Link to={to}>
-      <button className="bg-gradient-to-r from-[#D280F7] to-[#8A52FF] text-white px-4 py-2 h-[44px] w-[138px] rounded-full cursor-pointer text-lg">
-        {text}
-      </button>
-    </Link>
-  );
-
   return (
     <header className="flex justify-between items-center p-4 shadow-md bg-white">
-      {/* Logo Component */}
       <Logo />
 
-      {/* Search Bar */}
-      <div className="flex items-center bg-gray-100 rounded-full px-4 py-2 shadow-sm w-[400px] mr-auto">
-        <input
-          type="text"
-          placeholder="Find your dream jobs"
-          className="bg-transparent outline-none flex-grow px-2"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={handleKeyDown} // Listen for Enter key
-        />
-        <button className="text-purple-500" onClick={handleSearch}>
-          <FaSearch />
-        </button>
-      </div>
-
-      {/* Navigation Links & Auth Buttons */}
       <nav className="flex items-center space-x-6">
-        {navLinks.map(({ path, label }) => (
-          <NavLink
-            key={path}
-            to={path}
-            className={({ isActive }) =>
-              `text-lg font-semibold ${
-                isActive
+        {/* Recruiter Links */}
+        {user && user.role === "recruiter" ? (
+          <>
+            <NavLink
+              to="/admin/companies"
+              className={`text-lg font-semibold ${
+                location.pathname.startsWith("/admin/companies")
                   ? "underline text-black"
                   : "text-gray-500 hover:text-black"
-              }`
-            }
-          >
-            {label}
-          </NavLink>
-        ))}
+              }`}
+            >
+              Companies
+            </NavLink>
+            <NavLink
+              to="/admin/jobs"
+              className={`text-lg font-semibold ${
+                location.pathname.startsWith("/admin/jobs")
+                  ? "underline text-black"
+                  : "text-gray-500 hover:text-black"
+              }`}
+            >
+              Jobs
+            </NavLink>
+          </>
+        ) : (
+          <>
+            <NavLink
+              to="/"
+              className={`text-lg font-semibold ${
+                location.pathname === "/"
+                  ? "underline text-black"
+                  : "text-gray-500 hover:text-black"
+              }`}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/jobs"
+              className={`text-lg font-semibold ${
+                location.pathname.startsWith("/jobs")
+                  ? "underline text-black"
+                  : "text-gray-500 hover:text-black"
+              }`}
+            >
+              Jobs
+            </NavLink>
+          </>
+        )}
 
-        {/* Login & Signup Buttons */}
-        <AuthButton to="/login" text="Login" />
-        <AuthButton to="/signup" text="Signup" />
+        {/* Authentication Section */}
+        {!user ? (
+          <>
+            <Link to="/login">
+              <button className="bg-gradient-to-r from-[#D280F7] to-[#8A52FF] text-white px-4 py-2 h-[44px] w-[138px] rounded-full cursor-pointer text-lg">
+                Login
+              </button>
+            </Link>
+            <Link to="/signup">
+              <button className="bg-gradient-to-r from-[#D280F7] to-[#8A52FF] text-white px-4 py-2 h-[44px] w-[138px] rounded-full cursor-pointer text-lg">
+                Signup
+              </button>
+            </Link>
+          </>
+        ) : (
+          <div className="relative" ref={dropdownRef}>
+            <Avatar
+              src={user?.profile?.profilePhoto}
+              alt={user?.fullname}
+              onClick={() => setDropdownOpen((prev) => !prev)}
+            />
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md p-2 z-50">
+                <div className="flex items-center space-x-2 p-2">
+                  <Avatar
+                    src={user?.profile?.profilePhoto}
+                    alt={user?.fullname}
+                  />
+                  <div>
+                    <h4 className="font-medium">{user?.fullname}</h4>
+                    <p className="text-sm text-gray-500">
+                      {user?.profile?.bio}
+                    </p>
+                  </div>
+                </div>
+                {user.role === "student" && (
+                  <Link
+                    to="/profile"
+                    className="block p-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    View Profile
+                  </Link>
+                )}
+                <button
+                  onClick={logoutHandler}
+                  className="w-full text-left p-2 text-gray-700 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </nav>
     </header>
   );
