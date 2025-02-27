@@ -46,7 +46,8 @@ const Login = () => {
         navigate("/");
       }
     } catch (error) {
-      console.error(error.response?.data?.message || "Login failed");
+      const errorMessage = error.response?.data?.message || "Login failed";
+      window.alert(errorMessage);
     } finally {
       dispatch(setLoading(false));
     }
@@ -129,7 +130,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700"
+              className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 cursor-pointer"
               disabled={loading}
             >
               {loading ? (
@@ -144,7 +145,10 @@ const Login = () => {
 
           <p className="mt-3 text-center">
             Don't have an account?{" "}
-            <a href="/signup" className="text-[#0075E9] font-semibold">
+            <a
+              href="/signup"
+              className="text-[#0075E9] font-semibold cursor-pointer"
+            >
               Signup
             </a>
           </p>

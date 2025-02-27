@@ -41,7 +41,7 @@ const SignUp = () => {
     formDataToSend.append("role", formData.role);
 
     if (formData.file) {
-      formDataToSend.append("file", formData.file); // ✅ Ensure file key matches backend
+      formDataToSend.append("file", formData.file); // Ensure file key matches backend
     }
 
     try {
@@ -59,7 +59,8 @@ const SignUp = () => {
         navigate("/login");
       }
     } catch (error) {
-      console.error(error.response?.data?.message || "Signup failed!");
+      const errorMessage = error.response?.data?.message || "Signup failed!";
+      window.alert(errorMessage);
     } finally {
       dispatch(setLoading(false));
     }
@@ -178,7 +179,7 @@ const SignUp = () => {
 
             <button
               type="submit"
-              className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700"
+              className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 cursor-pointer"
             >
               {loading ? "Please wait..." : "Sign Up"}
             </button>
@@ -186,7 +187,10 @@ const SignUp = () => {
 
           <p className="mt-3 text-center">
             Already have an account?{" "}
-            <a href="/login" className="text-purple-600 font-semibold">
+            <a
+              href="/login"
+              className="text-purple-600 font-semibold cursor-pointer"
+            >
               Login
             </a>
           </p>
