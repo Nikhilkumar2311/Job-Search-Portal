@@ -60,7 +60,7 @@ const Header = () => {
   };
 
   return (
-    <header className="flex justify-between items-center p-4 shadow-md bg-white">
+    <header className="fixed top-0 left-0 w-full z-50 flex justify-between items-center p-4 shadow-md bg-white">
       <Logo />
 
       <nav className="flex items-center space-x-6">

@@ -21,7 +21,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative flex items-center justify-between px-16 py-20 bg-gradient-to-r from-white to-purple-100">
+    <section className="mt-16 relative flex items-center justify-between px-16 py-20 bg-gradient-to-r from-white to-purple-100">
       <div className="max-w-lg">
         <h1 className="text-5xl font-bold">
           <span className="bg-gradient-to-r from-[#9F62FD] to-[#CA7BF7] bg-clip-text text-transparent">
