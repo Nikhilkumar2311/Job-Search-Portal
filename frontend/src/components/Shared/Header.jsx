@@ -5,17 +5,7 @@ import axios from "axios";
 import { USER_API_END_POINT } from "../../utils/constant";
 import { setUser } from "../../redux/authSlice";
 import { useState, useRef, useEffect } from "react";
-
-// Avatar Component
-const Avatar = ({ src, alt, onClick }) => (
-  <div className="relative w-10 h-10 cursor-pointer" onClick={onClick}>
-    <img
-      src={src || "/profile.svg"}
-      alt={alt || "User Avatar"}
-      className="w-full h-full rounded-full border border-gray-300"
-    />
-  </div>
-);
+import Avatar from "./Avatar";
 
 const Header = () => {
   const { user } = useSelector((store) => store.auth);
@@ -130,6 +120,7 @@ const Header = () => {
         ) : (
           <div className="relative" ref={dropdownRef}>
             <Avatar
+              className="w-10 h-10"
               src={user?.profile?.profilePhoto}
               alt={user?.fullname}
               onClick={() => setDropdownOpen((prev) => !prev)}
@@ -138,6 +129,7 @@ const Header = () => {
               <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md p-2 z-50">
                 <div className="flex items-center space-x-2 p-2">
                   <Avatar
+                    className="w-10 h-10"
                     src={user?.profile?.profilePhoto}
                     alt={user?.fullname}
                   />
