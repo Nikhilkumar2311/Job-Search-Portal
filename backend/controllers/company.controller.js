@@ -73,28 +73,29 @@ export const updateCompany = async (req, res) => {
     try {
         const { name, description, website, location } = req.body;
 
-        const file = req.file;
-        // idhar cloudinary ayega
-        const fileUri = getDataUri(file);
+        if (!req.file) {
+            return res.status(400).json({
+                message: "No file uploaded.",
+                success: false
+            });
+        }
+
+        const fileUri = getDataUri(req.file);
         const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
         const logo = cloudResponse.secure_url;
 
+        // Update data
         const updateData = { name, description, website, location, logo };
-
         const company = await Company.findByIdAndUpdate(req.params.id, updateData, { new: true });
 
         if (!company) {
-            return res.status(404).json({
-                message: "Company not found.",
-                success: false
-            })
+            return res.status(404).json({ message: "Company not found.", success: false });
         }
-        return res.status(200).json({
-            message: "Company information updated.",
-            success: true
-        })
+
+        return res.status(200).json({ message: "Company information updated.", success: true });
 
     } catch (error) {
-        console.log(error);
+        console.error("Error updating company:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
     }
-}
+};

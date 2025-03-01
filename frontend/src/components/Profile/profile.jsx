@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Avatar from "../Shared/Avatar";
 import { FaEnvelope, FaPhone, FaEdit } from "react-icons/fa";
 import AppliedJobTable from "./AppliedJobTable";
 import UpdateProfileDialog from "./UpdateProfileDialog";
-import { useSelector } from "react-redux";
+import useGetAppliedJobs from "../../hooks/useGetAppliedJobs";
 
 const Profile = () => {
+  useGetAppliedJobs(); // ✅ Fetch applied jobs on mount
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { user } = useSelector((store) => store.auth);
 

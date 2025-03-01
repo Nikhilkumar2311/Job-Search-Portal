@@ -10,6 +10,9 @@ import useGetCompanyById from "../../hooks/useGetCompanyById";
 const CompanySetup = () => {
   const params = useParams();
   useGetCompanyById(params.id);
+  const navigate = useNavigate();
+  const { singleCompany } = useSelector((store) => store.company);
+
   const [input, setInput] = useState({
     name: "",
     description: "",
@@ -17,29 +20,45 @@ const CompanySetup = () => {
     location: "",
     file: null,
   });
-  const { singleCompany } = useSelector((store) => store.company);
+
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+
+  // ✅ Fix: Ensure `singleCompany` exists before accessing properties
+  useEffect(() => {
+    if (singleCompany) {
+      setInput((prev) => ({
+        ...prev,
+        name: singleCompany.name || "",
+        description: singleCompany.description || "",
+        website: singleCompany.website || "",
+        location: singleCompany.location || "",
+      }));
+    }
+  }, [singleCompany]);
 
   const changeEventHandler = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const changeFileHandler = (e) => {
-    const file = e.target.files?.[0];
-    setInput({ ...input, file });
+    if (e.target.files.length > 0) {
+      setInput((prev) => ({ ...prev, file: e.target.files[0] }));
+    }
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
     formData.append("name", input.name);
     formData.append("description", input.description);
     formData.append("website", input.website);
     formData.append("location", input.location);
+
     if (input.file) {
       formData.append("file", input.file);
     }
+
     try {
       setLoading(true);
       const res = await axios.put(
@@ -52,39 +71,39 @@ const CompanySetup = () => {
           withCredentials: true,
         }
       );
+
       if (res.data.success) {
         alert(res.data.message);
         navigate("/admin/companies");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error updating company:", error);
       alert(error.response?.data?.message || "An error occurred.");
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    setInput({
-      name: singleCompany.name || "",
-      description: singleCompany.description || "",
-      website: singleCompany.website || "",
-      location: singleCompany.location || "",
-      file: singleCompany.file || null,
-    });
-  }, [singleCompany]);
+  // ✅ Fix: Show a loading message while `singleCompany` is `null`
+  if (!singleCompany) {
+    return (
+      <div className="text-center text-gray-600 font-semibold mt-10">
+        Loading company data...
+      </div>
+    );
+  }
 
   return (
     <div>
       <Header />
-      {/* Added spacing below the header */}
-      <div className="max-w-xl mx-auto mt-16">
+      <div className="max-w-xl mx-auto mt-30 mb-25 border border-gray-300 rounded-3xl">
         <form
           onSubmit={submitHandler}
           className="bg-white p-6 rounded-2xl shadow-lg"
         >
           <div className="flex items-center gap-5 pb-6">
             <button
+              type="button"
               onClick={() => navigate("/admin/companies")}
               className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-500 font-semibold rounded-lg hover:bg-gray-200 transition cursor-pointer"
             >

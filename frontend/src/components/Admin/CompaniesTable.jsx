@@ -28,7 +28,6 @@ const CompaniesTable = () => {
   return (
     <div>
       {" "}
-      {/* Removed overflow-x-auto to prevent unwanted scrolling */}
       <table className="w-full shadow-md">
         <caption className="text-gray-600 text-sm py-3 font-medium bg-white opacity-70 mt-10">
           Recent Registered Companies

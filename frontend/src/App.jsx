@@ -3,6 +3,8 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 
 import Home from "./pages/Home";
+import Jobs from "./pages/Jobs";
+import JobDescription from "./components/Jobs/JobDescription";
 import SignUp from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
 import Profiles from "./pages/Profiles";
@@ -25,9 +27,11 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/jobs" element={<Jobs />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profiles />} />
+          <Route path="/description/:id" element={<JobDescription />} />
 
           {/* Protected Admin Routes */}
           <Route element={<ProtectedRoute />}>

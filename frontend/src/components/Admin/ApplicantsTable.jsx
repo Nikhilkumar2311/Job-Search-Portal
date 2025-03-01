@@ -2,9 +2,18 @@ import React from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { APPLICATION_API_END_POINT } from "../../utils/constant";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, CheckCircle, XCircle } from "lucide-react";
 
-const shortlistingStatus = ["Accepted", "Rejected"];
+const shortlistingStatus = [
+  {
+    label: "Accepted",
+    icon: <CheckCircle className="w-5 h-5 text-green-600 mr-2" />,
+  },
+  {
+    label: "Rejected",
+    icon: <XCircle className="w-5 h-5 text-red-600 mr-2" />,
+  },
+];
 
 const ApplicantsTable = () => {
   const { applicants } = useSelector((store) => store.application);
@@ -26,9 +35,7 @@ const ApplicantsTable = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4">
-      {" "}
-      {/* Added padding and max width */}
-      <table className="w-full shadow-md rounded-lg overflow-hidden">
+      <table className="w-full shadow-md rounded-lg">
         <caption className="text-gray-600 text-sm py-3 font-medium bg-white opacity-70 mt-10">
           Recent Applied Users
         </caption>
@@ -80,16 +87,20 @@ const ApplicantsTable = () => {
               </td>
               {/* Action Dropdown */}
               <td className="px-6 py-3 text-right relative">
-                <div className="inline-block cursor-pointer group">
+                <div className="inline-block cursor-pointer group relative">
                   <MoreHorizontal className="inline-block text-gray-500 hover:text-gray-700 transition" />
-                  <div className="hidden absolute right-0 w-36 bg-white border border-gray-200 rounded-lg shadow-md p-2 group-hover:block transition-opacity duration-300 z-50">
+                  <div
+                    className="hidden absolute right-0 top-full mt-1 w-40 bg-white border border-gray-200 
+                    rounded-lg shadow-md p-2 group-hover:block transition-opacity duration-300 z-50"
+                  >
                     {shortlistingStatus.map((status, index) => (
                       <div
                         key={index}
-                        onClick={() => statusHandler(status, item?._id)}
-                        className="cursor-pointer hover:bg-gray-100 px-3 py-2 rounded-lg text-gray-700"
+                        onClick={() => statusHandler(status.label, item?._id)}
+                        className="flex items-center cursor-pointer hover:bg-gray-100 px-3 py-2 rounded-lg text-gray-700"
                       >
-                        {status}
+                        {status.icon}
+                        {status.label}
                       </div>
                     ))}
                   </div>

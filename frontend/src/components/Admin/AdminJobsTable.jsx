@@ -65,7 +65,7 @@ const AdminJobsTable = () => {
                   <MoreHorizontal className="inline-block text-gray-500 hover:text-gray-700 transition" />
                   <div className="hidden absolute right-0 w-36 bg-white border border-gray-200 rounded-lg shadow-md p-2 group-hover:block transition-opacity duration-300 z-50">
                     <div
-                      onClick={() => navigate(`/admin/jobs/${job._id}`)} // Fixed path
+                      onClick={() => navigate(`/admin/jobs/${job._id}`)}
                       className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-3 py-2 rounded-lg"
                     >
                       <Edit2 className="w-4 text-[#C97CF8]" />
