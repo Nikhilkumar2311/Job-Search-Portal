@@ -107,12 +107,12 @@ const Header = () => {
         {!user ? (
           <>
             <Link to="/login">
-              <button className="bg-gradient-to-r from-[#D280F7] to-[#8A52FF] text-white px-4 py-2 h-[44px] w-[138px] rounded-full cursor-pointer text-lg">
+              <button className="bg-gradient-to-r from-[#D280F7] to-[#8A52FF] text-white px-4 py-2 h-[44px] w-[138px] rounded-full cursor-pointer text-lg hover:scale-105">
                 Login
               </button>
             </Link>
             <Link to="/signup">
-              <button className="bg-gradient-to-r from-[#D280F7] to-[#8A52FF] text-white px-4 py-2 h-[44px] w-[138px] rounded-full cursor-pointer text-lg">
+              <button className="bg-gradient-to-r from-[#D280F7] to-[#8A52FF] text-white px-4 py-2 h-[44px] w-[138px] rounded-full cursor-pointer text-lg hover:scale-105">
                 Signup
               </button>
             </Link>
