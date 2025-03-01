@@ -15,7 +15,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     phoneNumber: user?.phoneNumber || "",
     bio: user?.profile?.bio || "",
     skills: user?.profile?.skills?.join(", ") || "",
-    file: user?.profile?.resume || "",
+    file: null,
   });
 
   const changeEventHandler = (e) => {
@@ -35,9 +35,12 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("bio", input.bio);
     formData.append("skills", input.skills);
-    if (input.file) {
+
+    // ✅ Append file only if a new file was uploaded
+    if (input.file instanceof File) {
       formData.append("file", input.file);
     }
+
     try {
       setLoading(true);
       const res = await axios.post(
@@ -48,6 +51,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
           withCredentials: true,
         }
       );
+
       if (res.data.success) {
         dispatch(setUser(res.data.user));
         alert(res.data.message);
@@ -62,81 +66,57 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
   };
 
   return open ? (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg w-96">
-        <h2 className="text-lg font-semibold mb-4">Update Profile</h2>
+    <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50 mx-auto">
+      <div className="bg-white p-6 rounded-lg w-96 shadow-lg relative">
+        <h2 className="text-lg font-semibold mb-4 text-[#C97CF8]">
+          Update Profile
+        </h2>
         <form onSubmit={submitHandler}>
+          {[
+            { label: "Name", name: "fullname", type: "text" },
+            { label: "Email", name: "email", type: "email" },
+            { label: "Number", name: "phoneNumber", type: "text" },
+            { label: "Bio", name: "bio", type: "text" },
+            { label: "Skills", name: "skills", type: "text" },
+          ].map(({ label, name, type }) => (
+            <div key={name} className="mb-3">
+              <label className="block text-sm font-medium text-gray-700">
+                {label}
+              </label>
+              <input
+                type={type}
+                name={name}
+                value={input[name]}
+                onChange={changeEventHandler}
+                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#C97CF8]"
+              />
+            </div>
+          ))}
+
           <div className="mb-3">
-            <label className="block text-sm font-medium">Name</label>
-            <input
-              type="text"
-              name="fullname"
-              value={input.fullname}
-              onChange={changeEventHandler}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="block text-sm font-medium">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={input.email}
-              onChange={changeEventHandler}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="block text-sm font-medium">Number</label>
-            <input
-              type="text"
-              name="phoneNumber"
-              value={input.phoneNumber}
-              onChange={changeEventHandler}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="block text-sm font-medium">Bio</label>
-            <input
-              type="text"
-              name="bio"
-              value={input.bio}
-              onChange={changeEventHandler}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="block text-sm font-medium">Skills</label>
-            <input
-              type="text"
-              name="skills"
-              value={input.skills}
-              onChange={changeEventHandler}
-              className="w-full p-2 border rounded"
-            />
-          </div>
-          <div className="mb-3">
-            <label className="block text-sm font-medium">Resume</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Resume
+            </label>
             <input
               type="file"
               name="file"
               accept="application/pdf"
               onChange={fileChangeHandler}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#C97CF8]"
             />
           </div>
+
           <div className="mt-4 flex justify-end space-x-2">
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="px-4 py-2 bg-gray-300 rounded"
+              className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded"
+              className="px-4 py-2 bg-[#C97CF8] text-white rounded hover:bg-[#B16AE2]"
               disabled={loading}
             >
               {loading ? "Updating..." : "Update"}

@@ -126,7 +126,7 @@ const Header = () => {
               onClick={() => setDropdownOpen((prev) => !prev)}
             />
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md p-2 z-50">
+              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-2 z-50">
                 <div className="flex items-center space-x-2 p-2">
                   <Avatar
                     className="w-10 h-10"
