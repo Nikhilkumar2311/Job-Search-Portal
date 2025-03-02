@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Shared/Header";
+import Footer from "../Shared/Footer";
 import ApplicantsTable from "./ApplicantsTable";
 import axios from "axios";
 import { APPLICATION_API_END_POINT } from "../../utils/constant";
@@ -33,8 +34,6 @@ const Applicants = () => {
       <Header />
       <div className="max-w-7xl mx-auto mt-10 pt-16 px-4">
         {" "}
-        {/* Added padding */}
-        {/* Page Title */}
         <h1 className="font-bold text-xl text-[#C97CF8] mb-5">
           Applicants ({applicants?.applications?.length || 0})
         </h1>
@@ -57,6 +56,7 @@ const Applicants = () => {
         </div>
         <ApplicantsTable />
       </div>
+      <Footer />
     </div>
   );
 };

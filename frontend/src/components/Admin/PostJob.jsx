@@ -59,7 +59,7 @@ const PostJob = () => {
       <div className="flex items-center justify-center w-screen mt-25 mb-25">
         <form
           onSubmit={submitHandler}
-          className="p-8 max-w-4xl border border-gray-200 shadow-lg rounded-md bg-white"
+          className="p-8 max-w-4xl border border-gray-300 shadow-lg rounded-md bg-white"
         >
           <div className="grid grid-cols-2 gap-4">
             {/* Title */}

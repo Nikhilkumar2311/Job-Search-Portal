@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const Marquee = () => {
   const logos = [
     { src: "VTN.svg", width: 115, height: 75 },
-    { src: "amazon.svg", width: 100, height: 30 },
+    { src: "amazon.svg", width: 100, height: 50 },
     { src: "facebook.svg", width: 110, height: 70 },
     { src: "flipkart.svg", width: 115, height: 65 },
     { src: "jio.svg", width: 120, height: 80 },

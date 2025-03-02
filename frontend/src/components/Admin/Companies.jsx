@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Shared/Header";
+import Footer from "../Shared/Footer";
 import CompaniesTable from "./CompaniesTable";
 import { useNavigate } from "react-router-dom";
 import useGetAllCompanies from "../../hooks/useGetAllCompanies";
@@ -39,6 +40,7 @@ const Companies = () => {
         </div>
         <CompaniesTable />
       </div>
+      <Footer />
     </div>
   );
 };

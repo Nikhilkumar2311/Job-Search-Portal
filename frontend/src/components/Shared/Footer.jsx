@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0F0F14] text-white py-10 px-6 relative overflow-hidden">
+    <footer className="bg-[#0F0F14] text-white py-10 px-6 relative overflow-hidden mt-20">
       {/* Curved Background Shape on the Right */}
       <div className="absolute top-0 right-0 w-[50%] h-full bg-[#0F0F14] clip-path-custom"></div>
 
@@ -36,16 +36,16 @@ const Footer = () => {
             Browse Jobs
           </Link>
           <Link
-            to="/post-job"
+            to="/admin/jobs"
             className="block text-gray-400 mt-2 hover:text-white"
           >
             Post a Job
           </Link>
           <Link
-            to="/contact"
+            to="/admin/companies"
             className="block text-gray-400 mt-2 hover:text-white"
           >
-            Contact Us
+            Create a Company
           </Link>
         </div>
 

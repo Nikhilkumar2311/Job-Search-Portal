@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Shared/Header";
+import Footer from "../Shared/Footer";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import AdminJobsTable from "./AdminJobsTable";
@@ -39,6 +40,7 @@ const AdminJobs = () => {
         </div>
         <AdminJobsTable />
       </div>
+      <Footer />
     </div>
   );
 };

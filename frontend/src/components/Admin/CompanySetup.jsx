@@ -23,7 +23,7 @@ const CompanySetup = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // ✅ Fix: Ensure `singleCompany` exists before accessing properties
+  //Ensure `singleCompany` exists before accessing properties
   useEffect(() => {
     if (singleCompany) {
       setInput((prev) => ({
@@ -84,7 +84,7 @@ const CompanySetup = () => {
     }
   };
 
-  // ✅ Fix: Show a loading message while `singleCompany` is `null`
+  //Show a loading message while `singleCompany` is `null`
   if (!singleCompany) {
     return (
       <div className="text-center text-gray-600 font-semibold mt-10">

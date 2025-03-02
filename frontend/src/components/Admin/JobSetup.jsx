@@ -79,7 +79,7 @@ const JobSetup = () => {
   return (
     <div>
       <Header />
-      <div className="max-w-4xl mx-auto mt-16">
+      <div className="max-w-4xl mx-auto mt-20 mb-20 border border-gray-300 rounded-3xl">
         <form
           onSubmit={submitHandler}
           className="bg-white p-6 rounded-2xl shadow-lg"
