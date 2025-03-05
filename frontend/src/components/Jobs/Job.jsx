@@ -30,12 +30,17 @@ const Job = ({ job }) => {
             : `${daysAgoFunction(job?.createdAt)} days ago`}
         </span>
         <button
-          className={`p-2 bg-white rounded-full shadow hover:scale-105 ${
-            isBookmarked ? "text-blue-500" : "text-gray-600"
+          className={`p-2 rounded-full shadow hover:scale-105 transition ${
+            isBookmarked ? "bg-gray-300" : "bg-white"
           }`}
           onClick={() => dispatch(toggleBookmark(job._id))}
         >
-          <Bookmark className="w-5 h-5" />
+          <Bookmark
+            className="w-5 h-5"
+            style={{
+              stroke: isBookmarked ? "white" : "gray",
+            }}
+          />
         </button>
       </div>
 
@@ -74,12 +79,15 @@ const Job = ({ job }) => {
           Details
         </button>
         <button
-          className="px-4 py-2 text-white text-sm font-medium rounded-md cursor-pointer hover:scale-105"
+          onClick={() => dispatch(toggleBookmark(job._id))}
+          className={`px-4 py-2 text-white text-sm font-medium rounded-md cursor-pointer hover:scale-105 transition`}
           style={{
-            background: "linear-gradient(to right, #9056FE, #CE7DF8)",
+            background: isBookmarked
+              ? "gray"
+              : "linear-gradient(to right, #9056FE, #CE7DF8)",
           }}
         >
-          Save For Later
+          {isBookmarked ? "Already Bookmarked" : "Save For Later"}
         </button>
       </div>
     </div>
