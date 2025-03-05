@@ -1,7 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./redux/store";
-
 import Home from "./pages/Home";
 import Jobs from "./pages/Jobs";
 import JobDescription from "./components/Jobs/JobDescription";
@@ -24,32 +21,30 @@ import "./App.css";
 
 function App() {
   return (
-    <Provider store={store}>
-      <Router>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/jobs" element={<Jobs />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profiles />} />
-          <Route path="/browse" element={<Browse />} />
-          <Route path="/bookmark" element={<Bookmark />} />
-          <Route path="/description/:id" element={<JobDescription />} />
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profiles />} />
+        <Route path="/browse" element={<Browse />} />
+        <Route path="/bookmark" element={<Bookmark />} />
+        <Route path="/description/:id" element={<JobDescription />} />
 
-          {/* Protected Admin Routes */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="/admin/companies" element={<Companies />} />
-            <Route path="/admin/companies/create" element={<CompanyCreate />} />
-            <Route path="/admin/companies/:id" element={<CompanySetup />} />
-            <Route path="/admin/jobs" element={<AdminJobs />} />
-            <Route path="/admin/jobs/create" element={<PostJob />} />
-            <Route path="/admin/jobs/:id" element={<JobSetup />} />
-            <Route path="/admin/jobs/:id/applicants" element={<Applicants />} />
-          </Route>
-        </Routes>
-      </Router>
-    </Provider>
+        {/* Protected Admin Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin/companies" element={<Companies />} />
+          <Route path="/admin/companies/create" element={<CompanyCreate />} />
+          <Route path="/admin/companies/:id" element={<CompanySetup />} />
+          <Route path="/admin/jobs" element={<AdminJobs />} />
+          <Route path="/admin/jobs/create" element={<PostJob />} />
+          <Route path="/admin/jobs/:id" element={<JobSetup />} />
+          <Route path="/admin/jobs/:id/applicants" element={<Applicants />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 

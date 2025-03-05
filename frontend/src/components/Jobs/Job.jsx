@@ -55,7 +55,9 @@ const Job = ({ job }) => {
 
       {/* Job Title */}
       <h2 className="text-xl font-bold mt-3">{job?.title}</h2>
-      <p className="text-gray-600 text-sm mt-1">{job?.description}</p>
+      <p className="text-gray-600 text-sm mt-1 truncate w-full overflow-hidden whitespace-nowrap">
+        {job?.description}
+      </p>
 
       {/* Job Details */}
       <div className="flex flex-wrap gap-2 mt-3">
