@@ -8,6 +8,8 @@ import JobDescription from "./components/Jobs/JobDescription";
 import SignUp from "./components/Auth/Signup";
 import Login from "./components/Auth/Login";
 import Profiles from "./pages/Profiles";
+import Browse from "./components/Home/Browse";
+import Bookmark from "./components/Jobs/Bookmark";
 
 import Companies from "./components/Admin/Companies";
 import CompanyCreate from "./components/Admin/CompanyCreate";
@@ -31,6 +33,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profiles />} />
+          <Route path="/browse" element={<Browse />} />
+          <Route path="/bookmark" element={<Bookmark />} />
           <Route path="/description/:id" element={<JobDescription />} />
 
           {/* Protected Admin Routes */}

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Shared/Header";
 import Hero from "../components/Home/Hero";
 import Marquee from "../components/Home/Marqee";
+import LatestJobs from "../components/Home/LatestJobs";
 import Footer from "../components/Shared/Footer";
 
 const Home = () => {
@@ -22,6 +23,7 @@ const Home = () => {
       <Header />
       <Hero />
       <Marquee />
+      <LatestJobs />
       <Footer />
     </>
   );

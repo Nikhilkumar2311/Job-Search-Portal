@@ -141,12 +141,20 @@ const Header = () => {
                   </div>
                 </div>
                 {user.role === "student" && (
-                  <Link
-                    to="/profile"
-                    className="block p-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    View Profile
-                  </Link>
+                  <>
+                    <Link
+                      to="/profile"
+                      className="block p-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      View Profile
+                    </Link>
+                    <Link
+                      to="/bookmark"
+                      className="block p-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      Bookmarked
+                    </Link>
+                  </>
                 )}
                 <button
                   onClick={logoutHandler}

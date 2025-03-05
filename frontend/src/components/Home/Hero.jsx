@@ -1,22 +1,25 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSearchedQuery } from "../../redux/jobSlice";
 
 const Hero = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // Handle search action (optimized with useCallback)
-  const handleSearch = useCallback(() => {
-    if (query.trim() !== "") {
-      navigate(`/search?query=${query}`);
-    }
-  }, [query, navigate]);
+  // Handle search action
+  const searchJobHandler = () => {
+    if (!query.trim()) return; // Prevent empty search
+    dispatch(setSearchedQuery(query));
+    navigate("/browse");
+  };
 
   // Trigger search when Enter key is pressed
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      handleSearch();
+      searchJobHandler();
     }
   };
 
@@ -47,12 +50,15 @@ const Hero = () => {
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
             />
-            <button className="text-purple-500" onClick={handleSearch}>
+            <button
+              className="text-purple-500 cursor-pointer"
+              onClick={searchJobHandler}
+            >
               <FaSearch />
             </button>
           </div>
 
-          {/* No. 1 Job Hunt Button (Shrunk) */}
+          {/* No. 1 Job Hunt Button */}
           <button className="px-4 py-2 text-sm text-white bg-gradient-to-r from-[#D280F7] to-[#8A52FF] rounded-full font-medium shadow-lg hover:bg-purple-700 whitespace-nowrap">
             No. 1 Job Hunt Website
           </button>

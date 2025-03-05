@@ -1,10 +1,17 @@
 import React from "react";
 import Avatar from "../Shared/Avatar";
 import { Bookmark } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleBookmark } from "../../redux/jobSlice";
 import { useNavigate } from "react-router-dom";
 
 const Job = ({ job }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { bookmarkedJobs } = useSelector((store) => store.job);
+
+  // Check if job is bookmarked
+  const isBookmarked = bookmarkedJobs.some((item) => item._id === job._id);
 
   const daysAgoFunction = (mongodbTime) => {
     const createdAt = new Date(mongodbTime);
@@ -22,8 +29,13 @@ const Job = ({ job }) => {
             ? "Today"
             : `${daysAgoFunction(job?.createdAt)} days ago`}
         </span>
-        <button className="p-2 bg-white rounded-full shadow hover:scale-105">
-          <Bookmark className="w-5 h-5 text-gray-600" />
+        <button
+          className={`p-2 bg-white rounded-full shadow hover:scale-105 ${
+            isBookmarked ? "text-blue-500" : "text-gray-600"
+          }`}
+          onClick={() => dispatch(toggleBookmark(job._id))}
+        >
+          <Bookmark className="w-5 h-5" />
         </button>
       </div>
 
