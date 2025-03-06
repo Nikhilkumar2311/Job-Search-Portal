@@ -63,10 +63,10 @@ const Footer = () => {
         <div className="relative z-10">
           <h3 className="font-semibold text-lg">Members</h3>
           <p className="text-gray-400 mt-2">Nikhil Kumar</p>
-          <p className="text-gray-400 mt-2">Aditya Mankard</p>
+          <p className="text-gray-400 mt-2">Aditya Mankar</p>
           <p className="text-gray-400 mt-2">Yash Shinde</p>
           <p className="text-gray-400 mt-2">Vivek Tiwari</p>
-          <p className="text-gray-400 mt-2">Utkarsh Parihar</p>
+          <p className="text-gray-400 mt-2">Utakarsh Parihar</p>
         </div>
       </div>
 
