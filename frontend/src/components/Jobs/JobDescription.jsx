@@ -68,9 +68,9 @@ const JobDescription = () => {
     <div className="max-w-5xl mx-auto my-10 p-6 bg-white shadow-md rounded-lg border border-gray-300">
       <div className="flex items-center justify-between border-b pb-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-[#9056FE]">
+          <h2 className="text-2xl font-extrabold text-[#9056FE]">
             {singleJob?.title}
-          </h1>
+          </h2>
           <div className="flex items-center gap-2 mt-3">
             <span className="px-3 py-1 text-sm font-bold text-[#9056FE] border border-[#9056FE] rounded-lg">
               {singleJob?.position}{" "}
@@ -96,43 +96,43 @@ const JobDescription = () => {
           {isApplied ? "Already Applied" : "Apply Now"}
         </button>
       </div>
-      <h1 className="text-lg font-semibold text-[#9056FE] border-b-2 border-gray-300 py-4 mt-6">
+      <h2 className="text-lg font-semibold text-[#9056FE] border-b-2 border-gray-300 py-4 mt-6">
         Job Description
-      </h1>
+      </h2>
       <div className="my-6 text-gray-800 space-y-3">
-        <h1 className="font-semibold">
+        <h2 className="font-semibold">
           Role: <span className="pl-4 font-normal">{singleJob?.title}</span>
-        </h1>
-        <h1 className="font-semibold">
+        </h2>
+        <h2 className="font-semibold">
           Location:{" "}
           <span className="pl-4 font-normal">{singleJob?.location}</span>
-        </h1>
-        <h1 className="font-semibold">
+        </h2>
+        <h2 className="font-semibold">
           Description:{" "}
           <span className="pl-4 font-normal">{singleJob?.description}</span>
-        </h1>
-        <h1 className="font-semibold">
+        </h2>
+        <h2 className="font-semibold">
           Experience:{" "}
           <span className="pl-4 font-normal">
             {singleJob?.experienceLevel} yrs
           </span>
-        </h1>
-        <h1 className="font-semibold">
+        </h2>
+        <h2 className="font-semibold">
           Salary:{" "}
           <span className="pl-4 font-normal">{singleJob?.salary} LPA</span>
-        </h1>
-        <h1 className="font-semibold">
+        </h2>
+        <h2 className="font-semibold">
           Total Applicants:{" "}
           <span className="pl-4 font-normal">
             {singleJob?.applications?.length}
           </span>
-        </h1>
-        <h1 className="font-semibold">
+        </h2>
+        <h2 className="font-semibold">
           Posted Date:{" "}
           <span className="pl-4 font-normal">
             {singleJob?.createdAt.split("T")[0]}
           </span>
-        </h1>
+        </h2>
       </div>
     </div>
   );
