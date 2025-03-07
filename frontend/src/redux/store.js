@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authReducer from "./authSlice"; // Already persisted
+import authReducer from "./authSlice";
 import jobSlice from "./jobSlice";
 import {
     persistStore,
