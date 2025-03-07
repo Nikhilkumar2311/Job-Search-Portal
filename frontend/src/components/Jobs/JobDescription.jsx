@@ -73,7 +73,8 @@ const JobDescription = () => {
           </h1>
           <div className="flex items-center gap-2 mt-3">
             <span className="px-3 py-1 text-sm font-bold text-[#9056FE] border border-[#9056FE] rounded-lg">
-              {singleJob?.postion} Positions
+              {singleJob?.position}{" "}
+              {singleJob?.position === 1 ? "Position" : "Positions"}
             </span>
             <span className="px-3 py-1 text-sm font-bold text-[#CE7DF8] border border-[#CE7DF8] rounded-lg">
               {singleJob?.jobType}
@@ -112,7 +113,9 @@ const JobDescription = () => {
         </h1>
         <h1 className="font-semibold">
           Experience:{" "}
-          <span className="pl-4 font-normal">{singleJob?.experience} yrs</span>
+          <span className="pl-4 font-normal">
+            {singleJob?.experienceLevel} yrs
+          </span>
         </h1>
         <h1 className="font-semibold">
           Salary:{" "}

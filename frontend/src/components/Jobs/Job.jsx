@@ -62,7 +62,7 @@ const Job = ({ job }) => {
       {/* Job Details */}
       <div className="flex flex-wrap gap-2 mt-3">
         <span className="px-3 py-1 bg-white border rounded-full text-blue-600 text-xs">
-          {job?.position} positions
+          {job?.position} {job?.position === 1 ? "position" : "positions"}
         </span>
         <span className="px-3 py-1 bg-white border rounded-full text-red-500 text-xs">
           {job?.jobType}
