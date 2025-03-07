@@ -57,9 +57,9 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen bg-[url(./auth/bg_img.png)] p-6">
       <div className="bg-white shadow-lg rounded-lg flex w-full max-w-3xl max-h-[90vh] p-6 gap-6">
         {/* Left Side - Image */}
-        <div className="w-1/2 hidden md:flex items-center justify-center bg-purple-200 p-4 bg-[url(./auth/img2.svg)] bg-cover bg-center rounded-2xl">
+        <div className="w-1/2 hidden md:flex items-center justify-center p-4 bg-cover bg-center rounded-2xl">
           <img
-            src="./auth/image.svg"
+            src="./auth/login.webp"
             alt="login-illustration"
             className="w-full h-full object-cover rounded-2xl"
             loading="lazy"
